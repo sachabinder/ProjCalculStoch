@@ -20,8 +20,6 @@ class BlackScholes:
         self.r = r
         self.T = T
         self.sigma = sigma
-        self.d1 = self.d1()
-        self.d2 = self.d2()
 
     def d1(self, t: float = 0, St: float = None) -> float:
         """
@@ -37,9 +35,10 @@ class BlackScholes:
             raise ValueError("St cannot be None if t is not 0")
 
         theta = self.T - t
-        return (math.log(St / self.K) + (self.r + 0.5 * self.sigma**2) * theta) / (
+        d1 = (math.log(St / self.K) + (self.r + 0.5 * self.sigma**2) * theta) / (
             self.sigma * math.sqrt(theta)
         )
+        return d1
 
     def d2(self, t: float = 0, St: float = None) -> float:
         """
@@ -53,9 +52,9 @@ class BlackScholes:
             St = self.S0
         elif St is None:
             raise ValueError("St cannot be None if t is not 0")
-
         theta = self.T - t
-        return self.d1(t, St) - self.sigma * math.sqrt(theta)
+        d2 = self.d1(t, St) - self.sigma * math.sqrt(theta)
+        return d2
 
     def call_option_price(self, t: float = 0, St: float = None) -> float:
         """
