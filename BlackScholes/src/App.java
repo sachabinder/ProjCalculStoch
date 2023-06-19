@@ -2,9 +2,7 @@ package BlackScholes.src;
 import java.lang.Math;
 import BlackScholes.lib.Gaussian;
 
-public class App {
-
-    class BlackScholes{
+class BlackScholes{
         private double r, sigma;
         private int T;
         private double K;
@@ -45,9 +43,22 @@ public class App {
             return (Q(x + eps, t) - Q(x - eps, t))/ (2 * eps);
         }
 
+        double Monte_Carlo(int interations){
+            double sum = 0;
+            for(int i = 0; i < interations; i++){
+                // double eps = Gaussian.nextGaussian();
+                // sum += Math.max(eps, 0);
+            }
+            return sum/interations;
+        }
+
     }
 
+
+public class App {
+
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+         BlackScholes options = new BlackScholes(0.05, 0.2, 1, 100, 1, 1); 
+         System.out.println(options.call(100, 1));
     }
 }
