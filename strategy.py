@@ -55,6 +55,7 @@ class Strategy:
         self.mp = None
         self.mc = None
         self.set_put_call_proportion()
+        self.initial_wealth = self.expected_wealth(t=0, a=None)
 
     def expected_wealth(self, t: float, a: int, iterations: int = 1000) -> float:
         """
@@ -94,12 +95,11 @@ class Strategy:
 
         t: current time (should be between 0 and T)
         """
-        initial_wealth = self.expected_wealth(t=0, a=None)
 
         if t > self.T or t < 0:
             raise ValueError("t should be between 0 and T")
 
-        return initial_wealth * np.exp(self.r * t)
+        return self.initial_wealth * np.exp(self.r * t)
 
     def set_put_call_proportion(self) -> None:
         """
