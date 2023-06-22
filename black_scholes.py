@@ -1,4 +1,4 @@
-import math
+import numpy as np
 from scipy.stats import norm
 
 
@@ -35,8 +35,9 @@ class BlackScholes:
             raise ValueError("St cannot be None if t is not 0")
 
         theta = self.T - t
-        d1 = (math.log(St / self.K) + (self.r + 0.5 * self.sigma**2) * theta) / (
-            self.sigma * math.sqrt(theta)
+
+        d1 = (np.log(St / self.K) + (self.r + 0.5 * self.sigma**2) * theta) / (
+            self.sigma * np.sqrt(theta)
         )
         return d1
 
@@ -53,7 +54,7 @@ class BlackScholes:
         elif St is None:
             raise ValueError("St cannot be None if t is not 0")
         theta = self.T - t
-        d2 = self.d1(t, St) - self.sigma * math.sqrt(theta)
+        d2 = self.d1(t, St) - self.sigma * np.sqrt(theta)
         return d2
 
     def call_option_price(self, t: float = 0, St: float = None) -> float:
@@ -67,12 +68,14 @@ class BlackScholes:
         # Spot price at time t
         if t == 0:
             St = self.S0
+        elif t == self.T:
+            return np.maximum(St - self.K, 0)
         elif St is None:
             raise ValueError("St cannot be None if t is not 0")
 
         theta = self.T - t
 
-        return St * norm.cdf(self.d1(t=t, St=St)) - self.K * math.exp(
+        return St * norm.cdf(self.d1(t=t, St=St)) - self.K * np.exp(
             -self.r * theta
         ) * norm.cdf(self.d2(t=t, St=St))
 
@@ -87,11 +90,33 @@ class BlackScholes:
         # Spot price at time t
         if t == 0:
             St = self.S0
+        elif t == self.T:
+            return np.maximum(self.K - St, 0)
         elif St is None:
             raise ValueError("St cannot be None if t is not 0")
 
         theta = self.T - t
 
-        return self.K * math.exp(-self.r * theta) * norm.cdf(
+        return self.K * np.exp(-self.r * theta) * norm.cdf(
             -self.d2(t=t, St=St)
         ) - St * norm.cdf(-self.d1(t=t, St=St))
+
+    def call_option_delta(self, t: float = 0, St: float = None) -> float:
+        """
+        Compute the Delta of a European call option at time t
+        using Black-Scholes formula
+
+        t: actual time
+        St: spot price at time t
+        """
+        return norm.cdf(self.d1(t=t, St=St))
+
+    def put_option_delta(self, t: float = 0, St: float = None) -> float:
+        """
+        Compute the Delta of a European put option at time t
+        using Black-Scholes formula
+
+        t: actual time
+        St: spot price at time t
+        """
+        return norm.cdf(self.d1(t=t, St=St)) - 1
