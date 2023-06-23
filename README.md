@@ -1,6 +1,6 @@
 # Option Pricing and Hedging Strategies
 
-This repository provides Python implementations for pricing European options and developing dynamic hedging strategies. These implementations are based on the (Black-Scholes model)[https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model] and (Monte Carlo)[https://en.wikipedia.org/wiki/Monte_Carlo_method] simulations. 
+This repository provides Python implementations for pricing European options and developing dynamic hedging strategies. These implementations are based on the [Black-Scholes model](https://en.wikipedia.org/wiki/Black%E2%80%93Scholes_model) and [Monte Carlo](https://en.wikipedia.org/wiki/Monte_Carlo_method) simulations. 
 
 ## Overview
 
