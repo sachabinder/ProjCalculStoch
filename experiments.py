@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from tqdm import tqdm
+
 from strategy import Strategy, HedgingStrategy, Option
 from black_scholes import BlackScholes
 
